@@ -4,9 +4,9 @@
 set -e
 set -o pipefail
 
-# remove apk package manager
-find / -type f -iname '*apk*' -xdev -delete
-find / -type d -iname '*apk*' -print0 -xdev | xargs -0 rm -r --
+# remove apt package manager
+find / -type f -iname '*apt*' -xdev -delete
+find / -type d -iname '*apt*' -print0 -xdev | xargs -0 rm -r --
 
 # set rx to all directories, except data directory/
 find "$APP_DIR" -type d -exec chmod 500 {} +
