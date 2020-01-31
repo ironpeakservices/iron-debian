@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+    - master
+
+name: push image
+jobs:
+  dockerpush:
+    name: docker build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.0.0
+    - name: extract tag
+      id: vars
+      run: echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2)
+    - run: echo "Pushing version ${{ steps.vars.outputs.debian_version }}"
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        registry: docker.pkg.github.com
+        name: "ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
+        username: hazcod
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub release
+      uses: actions/create-release@v1
+      with:
+          tag_name: ${{ steps.vars.outputs.debian_version }}
+          release_name: iron-debian
+          draft: false
+          prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
