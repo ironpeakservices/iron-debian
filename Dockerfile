@@ -50,10 +50,10 @@ RUN sed -i -r 's#^(.*):[^:]*$#\1:/sbin/nologin#' /etc/passwd
 # Disable password login for everybody
 RUN while IFS=: read -r username _; do passwd -l "$username"; done < /etc/passwd || true
 
-# Remove apk configs. -> Commented out because we need apk to install other stuff
+# Remove apt configs. -> Commented out because we need apk to install other stuff
 #RUN find /bin /etc /lib /sbin /usr \
-#  -xdev -type f -regex '.*apk.*' \
-#  ! -name apk \
+#  -xdev -type f -regex '.*apt.*' \
+#  ! -name apt \
 #  -exec rm -fr {} +
 
 # Remove temp shadow,passwd,group
