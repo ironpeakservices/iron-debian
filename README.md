@@ -1,10 +1,10 @@
 # ironpeakservices/iron-debian
 Hardened debian linux baseimage for Docker.
 
-Note: If you use Golang, build statically and use [iron-scratch](https://github.com/ironpeakservices/iron-scratch).
+Note: If you use Golang/Rust/..., build statically and use [iron-scratch](https://github.com/ironpeakservices/iron-scratch).
 If you are using Java/Python/NodeJS/dotnet, use a [distroless image](https://github.com/GoogleContainerTools/distroless) instead.
 
-`docker pull docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:3.10.3`
+`docker pull docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:<version>`
 
 ## How is this different?
 - ca-certificates included
