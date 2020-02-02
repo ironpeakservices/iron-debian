@@ -33,7 +33,7 @@ jobs:
         username: hazcod
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: docker push
-      run: docker push "$IMAGENAME"
+      run: docker push "github.com/ironpeakservices/iron-debian:${{ steps.vars.outputs.debian_version }}"
     - name: Create GitHub release
       uses: actions/create-release@v1
       with:
