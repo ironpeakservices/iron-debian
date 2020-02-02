@@ -17,7 +17,7 @@ jobs:
         echo "Pushing version ${{ steps.vars.outputs.debian_version }}"
     - name: Build docker image
       run: |
-        export IMAGENAME="github.com/ironpeakServices/iron-debian:${{ steps.vars.outputs.debian_version }}"
+        export IMAGENAME="github.com/ironpeakservices/iron-debian:${{ steps.vars.outputs.debian_version }}"
         docker build --tag "$IMAGENAME"
         docker save --output image.tar "$IMAGENAME"
     - name: Squash docker image
