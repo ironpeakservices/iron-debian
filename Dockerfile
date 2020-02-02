@@ -14,9 +14,11 @@ ENV CONF_DIR "$APP_DIR/conf"
 
 # Update base system
 # hadolint ignore=DL3018
+# hadolint ignore=DL3009
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates \
-  && find / -name apk -exec rm -rf {} \;
+  && apt-get install -y --no-install-recommends ca-certificates=20190110 \
+  && apt-get clean \
+  && find / -xdev -name '*apt*' -print0 | xargs rm -rf
 
 # Add custom user and setup home directory
 RUN adduser --shell /bin/true --uid 1000 --home $APP_DIR --gecos '' $APP_USER \
