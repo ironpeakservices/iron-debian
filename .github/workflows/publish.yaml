@@ -24,7 +24,7 @@ jobs:
       run: |
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
-        ./docker-squash -i image.tar -t "$IMAGENAME" -verbose | docker load
+        sudo ./docker-squash -i image.tar -t "$IMAGENAME" -verbose | docker load
         rm image.tar
         docker login --username 'hazcod' --password ${{ secrets.GITHUB_TOKEN }}
         docker push "$IMAGENAME"
