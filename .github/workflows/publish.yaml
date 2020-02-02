@@ -15,19 +15,17 @@ jobs:
       run: |
         echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2 | cut -d '-' -f 1)
         echo "Pushing version ${{ steps.vars.outputs.debian_version }}"
-    - name: Build docker image
-      run: |
-        export IMAGENAME="docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
-        docker build --tag "$IMAGENAME" .
-        docker save --output image.tar "$IMAGENAME"
     - name: Docker Login
       uses: azure/docker-login@v1
       with:
         login-server: docker.pkg.github.com
         username: hazcod
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Squash & Push docker image
+    - name: Build docker image
       run: |
+        export IMAGENAME="docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
+        docker build --tag "$IMAGENAME" .
+        docker save --output image.tar "$IMAGENAME"
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
         sudo ./docker-squash -i image.tar -t "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}" -verbose | docker load
