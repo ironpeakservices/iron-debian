@@ -21,16 +21,14 @@ jobs:
         login-server: docker.pkg.github.com
         username: hazcod
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build docker image
+    - name: Build & Push image
       run: |
         export IMAGENAME="docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
         docker build --tag "$IMAGENAME" .
-        docker save --output image.tar "$IMAGENAME"
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
-        sudo ./docker-squash -i image.tar -t "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}" -verbose | docker load
-        rm image.tar
-        docker push "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
+        docker save "$IMAGENAME" | sudo ./docker-squash -t "$IMAGENAME" | docker load
+        docker push "$IMAGENAME"
     - name: Create GitHub release
       uses: sondreb/action-release@master
       with:
