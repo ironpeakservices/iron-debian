@@ -24,7 +24,7 @@ jobs:
       run: |
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
-        sudo ./docker-squash -i image.tar -t "$IMAGENAME" -verbose | docker load
+        sudo ./docker-squash -i image.tar -t "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}" -verbose | docker load
         rm image.tar
     - name: Docker Login
       uses: azure/docker-login@v1
