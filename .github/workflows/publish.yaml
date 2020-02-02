@@ -13,7 +13,7 @@ jobs:
     - name: extract tag
       id: vars
       run: |
-        echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2)
+        echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2 | cut -d '-' -f 1)
         echo "Pushing version ${{ steps.vars.outputs.debian_version }}"
     - name: Build docker image
       run: |
