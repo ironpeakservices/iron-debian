@@ -30,7 +30,7 @@ jobs:
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
         mkdir -p image/
-        ./docker-squash -i image.tar -t image:${{ steps.vars.outputs.debian_version }} -verbose -o image/image.tar
+        sudo ./docker-squash -i image.tar -t image:${{ steps.vars.outputs.debian_version }} -verbose -o image/image.tar
         rm image.tar
     - name: cache docker image
       uses: actions/cache@v1
