@@ -26,7 +26,7 @@ jobs:
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
         sudo ./docker-squash -i image.tar -t "$IMAGENAME" -verbose | docker load
         rm image.tar
-        DOCKER_PASSWORD="${{ secrets.GITHUB_TOKEN }}" docker login --username ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD="${{ secrets.GITHUB_TOKEN }}" docker login --username hazcod
         docker push "$IMAGENAME"
     - name: Create GitHub release
       uses: actions/create-release@v1
