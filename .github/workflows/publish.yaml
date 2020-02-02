@@ -27,7 +27,7 @@ jobs:
         docker build --tag "$IMAGENAME" .
         wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
-        docker save "$IMAGENAME" | sudo ./docker-squash -t "$IMAGENAME" | docker load
+        docker save "$IMAGENAME" | sudo ./docker-squash | docker load
         docker push "$IMAGENAME"
     - name: Create GitHub release
       uses: sondreb/action-release@master
