@@ -18,7 +18,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  && find / -name '*apt*' -exec rm -rf {} \;
+  && find / -xdev -name '*apt*' -exec rm -rf {} \;
 
 # Add custom user and setup home directory
 RUN adduser --shell /bin/true --uid 1000 --home $APP_DIR --gecos '' $APP_USER \
