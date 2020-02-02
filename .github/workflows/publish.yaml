@@ -32,11 +32,10 @@ jobs:
         rm image.tar
         docker push "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
     - name: Create GitHub release
-      uses: actions/create-release@v1
+      uses: sondreb/action-release@master
       with:
-          tag_name: ${{ steps.vars.outputs.debian_version }}
-          release_name: iron-debian
-          draft: false
-          prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        draft: false
+        prerelease: false
+        tag: ${{ steps.vars.outputs.debian_version }}
+
