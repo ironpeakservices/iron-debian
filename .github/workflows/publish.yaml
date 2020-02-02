@@ -17,23 +17,22 @@ jobs:
         echo "Pushing version ${{ steps.vars.outputs.debian_version }}"
     - name: Build docker image
       run: |
-        export IMAGENAME="github.com/ironpeakservices/iron-debian:${{ steps.vars.outputs.debian_version }}"
+        export IMAGENAME="docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
         docker build --tag "$IMAGENAME" .
         docker save --output image.tar "$IMAGENAME"
-    - name: Squash docker image
-      run: |
-        wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
-        tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
-        sudo ./docker-squash -i image.tar -t "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}" -verbose | docker load
-        rm image.tar
     - name: Docker Login
       uses: azure/docker-login@v1
       with:
         login-server: docker.pkg.github.com
         username: hazcod
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: docker push
-      run: docker push "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
+    - name: Squash & Push docker image
+      run: |
+        wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
+        tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
+        sudo ./docker-squash -i image.tar -t "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}" -verbose | docker load
+        rm image.tar
+        docker push "docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
     - name: Create GitHub release
       uses: actions/create-release@v1
       with:
