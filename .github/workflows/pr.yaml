@@ -21,10 +21,16 @@ jobs:
     - name: extract tag
       id: vars
       run: echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2)
-    - name: docker build
-      run: docker build . --file Dockerfile --tag image:${{ steps.vars.outputs.debian_version }}
-    - name: save docker image for cache
-      run: mkdir -p image/ && docker save -o image/image.tar image:${{ steps.vars.outputs.debian_version }}
+    - name: Build docker image
+      run: |
+        docker build . --file Dockerfile --tag image:${{ steps.vars.outputs.debian_version }}
+        docker save --output image.tar "$IMAGENAME"
+    - name: Squash docker image
+      run: |
+        wget https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz
+        tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
+        mkdir -p image/
+        ./docker-squash -i image.tar -t image:${{ steps.vars.outputs.debian_version }} -verbose -o image/image.tar
     - name: cache docker image
       uses: actions/cache@v1
       with:
