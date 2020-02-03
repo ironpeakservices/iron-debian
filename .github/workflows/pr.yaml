@@ -12,7 +12,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HADOLINT_ACTION_DOCKERFILE_FOLDER: .
-  
+  testsquash:
+    runs-on: ubuntu-latest
+    steps:
+    - run: docker build --squash
   dockerbuild:
     name: docker build
     runs-on: ubuntu-latest
