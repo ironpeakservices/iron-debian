@@ -12,10 +12,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HADOLINT_ACTION_DOCKERFILE_FOLDER: .
-  testsquash:
-    runs-on: ubuntu-latest
-    steps:
-    - run: docker build --squash
+
   dockerbuild:
     name: docker build
     runs-on: ubuntu-latest
@@ -26,7 +23,7 @@ jobs:
       run: echo ::set-output name=debian_version::$(grep '^FROM debian' Dockerfile  | cut -d ' ' -f 2 | cut -d ':' -f 2)
     - name: Build docker image
       run: |
-        docker build . --file Dockerfile --tag image:${{ steps.vars.outputs.debian_version }}
+        docker build --squash . --file Dockerfile --tag image:${{ steps.vars.outputs.debian_version }}
         docker save --output image.tar image:${{ steps.vars.outputs.debian_version }}
     - name: Squash docker image
       run: |
