@@ -31,8 +31,7 @@ jobs:
         tar -C . -xzvf docker-squash-linux-amd64-v0.2.0.tar.gz
         mkdir -p image/
         sudo ./docker-squash -i image.tar -t image:${{ steps.vars.outputs.debian_version }} -verbose -o image/image.tar
-        ls -alh image/ image.tar
-        rm image.tar
+        sudo chown -R $UID image/
     - name: cache docker image
       uses: actions/cache@v1
       with:
