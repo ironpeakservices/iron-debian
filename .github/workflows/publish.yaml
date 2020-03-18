@@ -25,7 +25,8 @@ jobs:
       run: |
         export IMAGENAME="docker.pkg.github.com/ironpeakservices/iron-debian/iron-debian:${{ steps.vars.outputs.debian_version }}"
         docker build --tag "$IMAGENAME" .
-        docker export "$IMAGENAME" | docker import - "$IMAGENAME"
+        docker create --name image "$IMAGENAME"
+        docker export image | docker import - "$IMAGENAME"
         docker push "$IMAGENAME"
     - name: Create GitHub release
       uses: sondreb/action-release@master
