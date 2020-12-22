@@ -11,4 +11,6 @@ updates:
   schedule:
     interval: daily
     time: '04:00'
+  commit_message:
+    prefix: "feat"
   open-pull-requests-limit: 10
