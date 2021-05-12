@@ -13,9 +13,7 @@ ENV DATA_DIR "$APP_DIR/data"
 ENV CONF_DIR "$APP_DIR/conf"
 
 # Update base system
-# hadolint ignore=DL3018
-# hadolint ignore=DL3009 
-# hadolint ignore=DL3008
+# hadolint ignore=DL3018,DL3009,DL3008
 RUN apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates \
   && apt-get clean \
