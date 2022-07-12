@@ -1,4 +1,4 @@
-FROM debian:11.2-slim
+FROM debian:11.4-slim
 
 # make a pipe fail on the first failure
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
